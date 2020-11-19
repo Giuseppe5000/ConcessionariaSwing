@@ -5,6 +5,7 @@
 * */
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -43,11 +44,20 @@ public class Frame
 
                         v.remove(index);
 
-                        String targa = "";
+                        String targa;
+                        StringBuilder C = new StringBuilder();
                         Random r = new Random();
-                        for(int i=0;i<7;i++) {
-                                targa += String.valueOf(r.nextInt(9));
+
+                        char c = (char) ('a' + r.nextInt(26));
+                        char c2 = (char) ('a' + r.nextInt(26));
+
+                        String A = (c +""+ c2).toUpperCase();
+                        String B = (c2 +""+c).toUpperCase();
+
+                        for(int i=0;i<3;i++) {
+                                C.append(r.nextInt(9));
                         }
+                        targa = A + C + B;
 
                         a.setTarga(targa);
                         aVendute.add(a);
@@ -159,6 +169,7 @@ public class Frame
         {
 
                 JFileChooser filec = new JFileChooser();
+                filec.setFileFilter(new FileNameExtensionFilter("CSV files","csv"));
                 filec.setCurrentDirectory(new File("."));
                 File elenco = null;
                 int returnVal = filec.showOpenDialog(null);
