@@ -41,11 +41,11 @@ public class Frame
                 Vector<Automobile> aVendute = new Vector<>();
 
                 //Vende auto
-                JButton b1 = new JButton("Vendi auto");//"Vendi auto"
+                JButton b1 = new JButton("Vendi auto selezionata");//"Vendi auto"
                 b1.setBackground(Color.BLACK);
                 b1.setForeground(Color.WHITE);
                 b1.addActionListener(e -> {
-                        int index = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserire il numero dell'indice"));
+                        int index = lista.getSelectedIndex();
                         Automobile a = v.get(index);
 
                         v.remove(index);
@@ -77,6 +77,7 @@ public class Frame
                 b2.setBackground(Color.BLACK);
                 b2.setForeground(Color.WHITE);
                 b2.addActionListener(e -> {
+                        UIManager.put("Panel.background",Color.DARK_GRAY);
                         Automobile a1 = new Automobile();
                         String marca = JOptionPane.showInputDialog(f,"Inserire marca");
                         String modello = JOptionPane.showInputDialog(f,"Inserire modello");
@@ -105,6 +106,7 @@ public class Frame
                 b3.setBackground(Color.BLACK);
                 b3.setForeground(Color.WHITE);
                 b3.addActionListener(e -> {
+                        UIManager.put("Panel.background",Color.DARK_GRAY);
                         String marca = JOptionPane.showInputDialog(f,"Inserire marca (lascia vuoto se non interessato)");
                         String modello = JOptionPane.showInputDialog(f,"Inserire modello (lascia vuoto se non interessato)");
                         String cilindrata = JOptionPane.showInputDialog(f,"Inserisci cilindrata (lascia vuoto se non interessato)");
@@ -133,7 +135,7 @@ public class Frame
                                         &&
                                         ((potenzaInt == auto.getPotenza() ) || (potenza.equals("")) )){
 
-                                        count.add(i);
+                                        count.add(i+1);
                                 }
                         }
                         JOptionPane.showMessageDialog(f,"Ho trovato " + count.size() + " auto nei numeri di indice " + count);
@@ -165,9 +167,7 @@ public class Frame
                         {
                                 if(e.getClickCount()==2){
                                         UIManager.put("Panel.background",Color.DARK_GRAY);
-                                        JList t = (JList) e.getSource();
-                                        //System.out.print(t.locationToIndex(e.getPoint()));
-                                        Automobile a = v.elementAt(t.locationToIndex(e.getPoint()));
+                                        Automobile a = v.elementAt(lista.getSelectedIndex());
                                         ImageIcon i = new ImageIcon("assets/auto.jpg");
                                         JOptionPane.showMessageDialog(f,a,"Info",JOptionPane.PLAIN_MESSAGE,i);
                                 }
@@ -227,12 +227,12 @@ public class Frame
 
                 this.l = new DefaultListModel<>();
                 for(i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: black;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
+                        this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
                                 " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
-                this.lista = new JList(l);
+                this.lista = new JList<>(this.l);
                 lista.setForeground(Color.WHITE);
                 lista.setBackground(Color.GRAY);
                 this.s = new JScrollPane();
@@ -247,7 +247,7 @@ public class Frame
                 f.remove(this.s);
                 this.l.removeAllElements();
                 for(int i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: black;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
+                        this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
                                 " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }

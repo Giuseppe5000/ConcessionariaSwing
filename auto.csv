@@ -1,18 +1,15 @@
-amc,matador,1731,189,4,1,3,##@@@##
 pontiac,firebird,500,186,6,2,2,##@@@##
 dodge,colt,1652,26,5,5,2,##@@@##
 chevrolet,monte,500,186,5,1,5,##@@@##
 ford,galaxie,2119,119,3,7,2,##@@@##
 dodge,challenger,500,145,1,7,4,##@@@##
 chevrolet,caprice,2248,135,6,5,5,##@@@##
-chevrolet,chevelle,578,60,2,3,2,##@@@##
 mercury,marquis,2654,157,6,5,2,##@@@##
 amc,ambassador,500,75,1,5,3,##@@@##
 ford,ltd,2945,101,1,6,2,##@@@##
 chevrolet,vega,1409,78,4,4,3,##@@@##
 volvo,145e,1585,155,4,4,2,##@@@##
 dodge,colt,776,36,1,7,5,##@@@##
-chevrolet,vega,2553,27,2,4,3,##@@@##
 audi,100,1654,29,3,3,3,##@@@##
 pontiac,catalina,1249,117,3,5,2,##@@@##
 chevrolet,monte,500,122,6,2,2,##@@@##
@@ -93,3 +90,5 @@ chrysler,newport,2611,105,2,2,2,##@@@##
 peugeot,504,1182,190,6,4,4,##@@@##
 plymouth,fury,688,155,4,2,5,##@@@##
 pontiac,catalina,2323,188,1,5,2,##@@@##
+tesla,boh,500,1,1,1,2,##@@@##
+ford,bbb,500,1,1,1,2,##@@@##
