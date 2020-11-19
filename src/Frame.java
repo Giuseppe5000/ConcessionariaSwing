@@ -6,6 +6,7 @@
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -25,19 +26,24 @@ public class Frame
 
         Frame()
         {
+                f.getContentPane().setBackground(Color.DARK_GRAY);
                 f.setName("Concessionaria");
-                f.setSize(800,400);
+                f.setSize(800,395);
                 f.setResizable(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.setLayout(null);
 
+                UIManager.put("OptionPane.background",Color.DARK_GRAY);
+                UIManager.put("OptionPane.messageForeground",Color.WHITE);
 
                 //Init dal file di auto
                 Vector<Automobile> v = new Vector<>();
                 Vector<Automobile> aVendute = new Vector<>();
 
                 //Vende auto
-                JButton b1 = new JButton("<html><p style='color: blue;'>Vendi auto</p></html>");//"Vendi auto"
+                JButton b1 = new JButton("Vendi auto");//"Vendi auto"
+                b1.setBackground(Color.BLACK);
+                b1.setForeground(Color.WHITE);
                 b1.addActionListener(e -> {
                         int index = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserire il numero dell'indice"));
                         Automobile a = v.get(index);
@@ -67,7 +73,9 @@ public class Frame
 
 
                 //Aggiunge auto
-                JButton b2 = new JButton("<html><p style='color: blue;'>Aggiungi auto</p></html>");
+                JButton b2 = new JButton("Aggiungi auto");
+                b2.setBackground(Color.BLACK);
+                b2.setForeground(Color.WHITE);
                 b2.addActionListener(e -> {
                         Automobile a1 = new Automobile();
                         String marca = JOptionPane.showInputDialog(f,"Inserire marca");
@@ -93,7 +101,9 @@ public class Frame
                 });
 
                 //Cerca auto
-                JButton b3 = new JButton("<html><p style='color: blue;'>Cerca auto</p></html>");
+                JButton b3 = new JButton("Cerca auto");
+                b3.setBackground(Color.BLACK);
+                b3.setForeground(Color.WHITE);
                 b3.addActionListener(e -> {
                         String marca = JOptionPane.showInputDialog(f,"Inserire marca (lascia vuoto se non interessato)");
                         String modello = JOptionPane.showInputDialog(f,"Inserire modello (lascia vuoto se non interessato)");
@@ -136,7 +146,8 @@ public class Frame
                 b3.setBounds(50,150,200,30);
 
                 JLabel label = new JLabel("<html><span style='color:red;'>Indice</span> Marca Modello " +
-                        "(<span style='color:green;'>cilindrata</span>,<span style='color:blue;'>potenza</span>,euro,posti,porte)</html>");
+                        "(cilindrata,potenza,euro,posti,porte)</html>");
+                label.setForeground(Color.WHITE);
                 label.setBounds(300,30,500,20);
 
                 f.add(b1);
@@ -153,7 +164,7 @@ public class Frame
                         public void mouseClicked(MouseEvent e)
                         {
                                 if(e.getClickCount()==2){
-
+                                        UIManager.put("Panel.background",Color.DARK_GRAY);
                                         JList t = (JList) e.getSource();
                                         //System.out.print(t.locationToIndex(e.getPoint()));
                                         Automobile a = v.elementAt(t.locationToIndex(e.getPoint()));
@@ -216,16 +227,18 @@ public class Frame
 
                 this.l = new DefaultListModel<>();
                 for(i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: red;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
-                                " (<span style='color:green;'>" +v.elementAt(i).getCilindrata()+ "</span>, <span style='color:blue;'>" +v.elementAt(i).getPotenza()+
-                                "</span>, " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
+                        this.l.addElement("<html><span style='color: black;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
+                                " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
+                                ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
                 this.lista = new JList(l);
+                lista.setForeground(Color.WHITE);
+                lista.setBackground(Color.GRAY);
                 this.s = new JScrollPane();
                 this.s.setViewportView(lista);
 
-                s.setBounds(300,50,500,300);
+                s.setBounds(300,50,517,310);
                 f.add(s);
         }
 
@@ -234,9 +247,9 @@ public class Frame
                 f.remove(this.s);
                 this.l.removeAllElements();
                 for(int i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: red;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
-                                " (<span style='color:green;'>" +v.elementAt(i).getCilindrata()+ "</span>, <span style='color:blue;'>" +v.elementAt(i).getPotenza()+
-                                "</span>, " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
+                        this.l.addElement("<html><span style='color: black;'>"+i+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
+                                " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
+                                ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
                 f.add(this.s);
