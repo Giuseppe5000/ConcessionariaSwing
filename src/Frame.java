@@ -5,21 +5,14 @@
 * */
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class Frame
 {
         JFrame f = new JFrame();
-
         private DefaultListModel<String> l;
         private JScrollPane s;
         private JList lista;
@@ -36,39 +29,17 @@ public class Frame
                 UIManager.put("OptionPane.background",Color.DARK_GRAY);
                 UIManager.put("OptionPane.messageForeground",Color.WHITE);
 
-                //Init dal file di auto
                 Vector<Automobile> v = new Vector<>();
                 Vector<Automobile> aVendute = new Vector<>();
 
                 //Vende auto
-                JButton b1 = new JButton("Vendi auto selezionata");//"Vendi auto"
+                JButton b1 = new JButton("Vendi auto selezionata");
                 b1.setBackground(Color.BLACK);
                 b1.setForeground(Color.WHITE);
                 b1.addActionListener(e -> {
-                        int index = lista.getSelectedIndex();
-                        Automobile a = v.get(index);
-
-                        v.remove(index);
-
-                        String targa;
-                        StringBuilder C = new StringBuilder();
-                        Random r = new Random();
-
-                        char c = (char) ('a' + r.nextInt(26));
-                        char c2 = (char) ('a' + r.nextInt(26));
-
-                        String A = (c +""+ c2).toUpperCase();
-                        String B = (c2 +""+c).toUpperCase();
-
-                        for(int i=0;i<3;i++) {
-                                C.append(r.nextInt(9));
-                        }
-                        targa = A + C + B;
-
-                        a.setTarga(targa);
-                        aVendute.add(a);
+                        SellCar.Sell(lista,v,aVendute);
                         RefreshAuto(v);
-                        SaveFile(v,aVendute);
+                        SaveFile.Save(v,aVendute);
                 });
 
 
@@ -78,46 +49,9 @@ public class Frame
                 b2.setForeground(Color.WHITE);
                 b2.addActionListener(e -> {
                         UIManager.put("Panel.background",Color.DARK_GRAY);
-                        JTextField marca1 = new JTextField();
-                        JTextField modello1 = new JTextField();
-                        JTextField cilindrata1 = new JTextField();
-                        JTextField potenza1 = new JTextField();
-                        JTextField euro1 = new JTextField();
-                        JTextField posti1 = new JTextField();
-                        JTextField porte1 = new JTextField();
-                        Object[] autoObj = {
-                                "Marca:", marca1,
-                                "Modello:", modello1,
-                                "Cilindrata: ", cilindrata1,
-                                "Potenza: ", potenza1,
-                                "Euro: ", euro1,
-                                "Posti: ", posti1,
-                                "Porte: ", porte1
-                        };
-                        int j = JOptionPane.showConfirmDialog(f,autoObj,"Aggiungi auto",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
-
-                        if(j == JOptionPane.OK_OPTION){
-                                Automobile a1 = new Automobile();
-                                int cilindrata = Integer.parseInt(String.valueOf(cilindrata1.getText()));
-                                int potenza = Integer.parseInt(String.valueOf(potenza1.getText()));
-                                int euro = Integer.parseInt(String.valueOf(euro1.getText()));
-                                int posti = Integer.parseInt(String.valueOf(posti1.getText()));
-                                int porte = Integer.parseInt(String.valueOf(porte1.getText()));
-
-                                a1.setMarca(marca1.getText());
-                                a1.setModello(modello1.getText());
-                                a1.setCilindrata(cilindrata);
-                                a1.setPotenza(potenza);
-                                a1.setEuro(euro);
-                                a1.setPosti(posti);
-                                a1.setPorte(porte);
-                                a1.setTarga("##@@@##");
-
-                                v.add(a1);
-                                RefreshAuto(v);
-                                SaveFile(v,aVendute);
-                        }
-
+                        AddCar.Add(f,v);
+                        RefreshAuto(v);
+                        SaveFile.Save(v,aVendute);
                 });
 
                 //Cerca auto
@@ -126,55 +60,7 @@ public class Frame
                 b3.setForeground(Color.WHITE);
                 b3.addActionListener(e -> {
                         UIManager.put("Panel.background",Color.DARK_GRAY);
-
-                        JTextField marca1 = new JTextField();
-                        JTextField modello1 = new JTextField();
-                        JTextField cilindrata1 = new JTextField();
-                        JTextField potenza1 = new JTextField();
-                        Object[] autoObj = {
-                                "Marca:", marca1,
-                                "Modello:", modello1,
-                                "Cilindrata: ", cilindrata1,
-                                "Potenza: ", potenza1,
-                        };
-                        int j = JOptionPane.showConfirmDialog(f,autoObj,"Cerca auto",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
-
-                        if (j == JOptionPane.OK_OPTION){
-                                String marca = marca1.getText();
-                                String modello = modello1.getText();
-                                String cilindrata = cilindrata1.getText();
-                                String potenza = potenza1.getText();
-
-                                int cilindrataInt = 0;
-                                int potenzaInt = 0;
-
-                                try {
-                                        cilindrataInt = cilindrata.equals("") ? 0 : Integer.parseInt(cilindrata);
-                                        potenzaInt = potenza.equals("") ? 0 : Integer.parseInt(potenza);
-                                } catch (Exception NumberFormatException){
-                                        JOptionPane.showMessageDialog(f,"Devi inserire un numero!");
-                                }
-
-                                Automobile auto;
-                                Vector<Integer> count = new Vector<>();
-                                for(int i=0;i<v.size();i++){
-                                        auto = v.get(i);
-
-                                        if( ((marca.equals(auto.getMarca()) ) || (marca.equals("")) )
-                                                &&
-                                                ((modello.equals(auto.getModello()) ) || (modello.equals("")) )
-                                                &&
-                                                ((cilindrataInt == auto.getCilindrata()) || (cilindrata.equals("")) )
-                                                &&
-                                                ((potenzaInt == auto.getPotenza() ) || (potenza.equals("")) )){
-
-                                                count.add(i+1);
-                                        }
-                                }
-                                JOptionPane.showMessageDialog(f,"Ho trovato " + count.size() + " auto nei numeri di indice " + count);
-                        }
-
-
+                        SearchCar.Search(f,v);
                 });
 
 
@@ -202,41 +88,9 @@ public class Frame
                         {
                                 if(e.getClickCount()==2){
                                         UIManager.put("Panel.background",Color.DARK_GRAY);
-                                        Automobile a = v.elementAt(lista.getSelectedIndex());
-                                        ImageIcon i = new ImageIcon("assets/auto.jpg");
-                                        //JOptionPane.showMessageDialog(f,a,"Info",JOptionPane.PLAIN_MESSAGE,i);
-
-                                        JTextField marca1 = new JTextField(); marca1.setText(a.getMarca());
-                                        JTextField modello1 = new JTextField(); modello1.setText(a.getModello());
-                                        JTextField cilindrata1 = new JTextField(); cilindrata1.setText(String.valueOf(a.getCilindrata()));
-                                        JTextField potenza1 = new JTextField(); potenza1.setText(String.valueOf(a.getPotenza()));
-                                        JTextField euro1 = new JTextField(); euro1.setText(String.valueOf(a.getEuro()));
-                                        JTextField posti1 = new JTextField(); posti1.setText(String.valueOf(a.getPosti()));
-                                        JTextField porte1 = new JTextField(); porte1.setText(String.valueOf(a.getPorte()));
-                                        Object[] autoObj = {
-                                                "Marca:", marca1,
-                                                "Modello:", modello1,
-                                                "Cilindrata: ", cilindrata1,
-                                                "Potenza: ", potenza1,
-                                                "Euro: ", euro1,
-                                                "Posti: ", posti1,
-                                                "Porte: ", porte1
-                                        };
-                                        int j = JOptionPane.showConfirmDialog(f,autoObj,"Info",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,i);
-
-                                        System.out.print(j);
-                                        if(j == JOptionPane.OK_OPTION){
-                                                v.elementAt(lista.getSelectedIndex()).setMarca(marca1.getText());
-                                                v.elementAt(lista.getSelectedIndex()).setModello(modello1.getText());
-                                                v.elementAt(lista.getSelectedIndex()).setCilindrata(Integer.parseInt(cilindrata1.getText()));
-                                                v.elementAt(lista.getSelectedIndex()).setPotenza(Integer.parseInt(potenza1.getText()));
-                                                v.elementAt(lista.getSelectedIndex()).setEuro(Integer.parseInt(euro1.getText()));
-                                                v.elementAt(lista.getSelectedIndex()).setPosti(Integer.parseInt(posti1.getText()));
-                                                v.elementAt(lista.getSelectedIndex()).setPorte(Integer.parseInt(porte1.getText()));
-                                        }
-
+                                        EditCar.Edit(f,v,lista);
                                         RefreshAuto(v);
-                                        SaveFile(v,aVendute);
+                                        SaveFile.Save(v,aVendute);
                                 }
 
                         }
@@ -245,67 +99,21 @@ public class Frame
 
         private void InitAuto(Vector<Automobile> v)
         {
-
-                JFileChooser filec = new JFileChooser();
-                filec.setFileFilter(new FileNameExtensionFilter("CSV files","csv"));
-                filec.setCurrentDirectory(new File("."));
-                File elenco = null;
-                int returnVal = filec.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION)
-                        elenco = filec.getSelectedFile();
-
-
-                Vector<String> arrayauto = new Vector<>();
-                FileInputStream autof;
-                Scanner in;
-                int i=0;
-
-                try {
-                        assert elenco != null;
-                        autof = new FileInputStream(elenco.getAbsoluteFile());
-                        in = new Scanner(autof);
-
-                        while(in.hasNextLine()) {
-                                Automobile a = new Automobile();
-                                arrayauto.add(in.nextLine());
-
-                                String[] a2;
-                                a2 = arrayauto.elementAt(i).split(",");
-
-
-                                a.setMarca(a2[0]);
-                                a.setModello(a2[1]);
-                                a.setCilindrata(Integer.parseInt(a2[2]));
-                                a.setPotenza(Integer.parseInt(a2[3]));
-                                a.setEuro(Integer.parseInt(a2[4]));
-                                a.setPosti(Integer.parseInt(a2[5]));
-                                a.setPorte(Integer.parseInt(a2[6]));
-                                a.setTarga("##@@@##");
-
-                                v.add(a);
-
-                                i++;
-                        }
-                } catch (Exception e) {
-                        System.out.println("File non trovato");
-                        System.exit(1);
-                }
-
-
+                Init.InitCar(v);
                 this.l = new DefaultListModel<>();
-                for(i=0;i<v.size();i++){
+                for(int i=0;i<v.size();i++){
                         this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
                                 " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
                 this.lista = new JList<>(this.l);
-                lista.setForeground(Color.WHITE);
-                lista.setBackground(Color.GRAY);
+                this.lista.setForeground(Color.WHITE);
+                this.lista.setBackground(Color.GRAY);
                 this.s = new JScrollPane();
                 this.s.setViewportView(lista);
 
-                s.setBounds(300,50,517,310);
+                this.s.setBounds(300,50,517,310);
                 f.add(s);
         }
 
@@ -321,39 +129,6 @@ public class Frame
 
                 f.add(this.s);
                 f.revalidate();
-        }
-
-        private void SaveFile(Vector<Automobile> v, Vector<Automobile> aVendute){
-                FileWriter f;
-                try {
-                        f = new FileWriter("auto.csv");
-
-                        for (Automobile automobile : v) {
-                                f.write(automobile.getMarca() + "," + automobile.getModello() + "," + automobile.getCilindrata() + "," + automobile.getPotenza() +
-                                        "," + automobile.getEuro() + "," + automobile.getPosti() + "," + automobile.getPorte() + "," + automobile.getTarga() + "\n");
-                                f.flush();
-                        }
-
-                } catch (Exception e) {
-                        System.out.println("Errore");
-                        System.exit(1);
-                }
-
-                FileWriter f2;
-                try {
-                        f2 = new FileWriter("autovendute.csv",true);
-
-                        for (Automobile automobile : aVendute) {
-                                f2.write(automobile.getMarca() + "," + automobile.getModello() + "," + automobile.getCilindrata() + "," + automobile.getPotenza() +
-                                        "," + automobile.getEuro() + "," + automobile.getPosti() + "," + automobile.getPorte() + "," + automobile.getTarga() + "\n");
-                                f2.flush();
-                        }
-
-                } catch (Exception e2) {
-                        System.out.println("Errore");
-                        System.exit(1);
-                }
-
         }
 
         public static void main(String[] args)
