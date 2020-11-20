@@ -78,17 +78,33 @@ public class Frame
                 b2.setForeground(Color.WHITE);
                 b2.addActionListener(e -> {
                         UIManager.put("Panel.background",Color.DARK_GRAY);
-                        Automobile a1 = new Automobile();
-                        String marca = JOptionPane.showInputDialog(f,"Inserire marca");
-                        String modello = JOptionPane.showInputDialog(f,"Inserire modello");
-                        int cilindrata = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserisci cilindrata"));
-                        int potenza = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserisci potenza"));
-                        int euro = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserisici classe euro"));
-                        int posti = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserici numero posti"));
-                        int porte = Integer.parseInt(JOptionPane.showInputDialog(f,"Inserisci numero porte"));
+                        JTextField marca1 = new JTextField();
+                        JTextField modello1 = new JTextField();
+                        JTextField cilindrata1 = new JTextField();
+                        JTextField potenza1 = new JTextField();
+                        JTextField euro1 = new JTextField();
+                        JTextField posti1 = new JTextField();
+                        JTextField porte1 = new JTextField();
+                        Object[] autoObj = {
+                                "Marca:", marca1,
+                                "Modello:", modello1,
+                                "Cilindrata: ", cilindrata1,
+                                "Potenza: ", potenza1,
+                                "Euro: ", euro1,
+                                "Posti: ", posti1,
+                                "Porte: ", porte1
+                        };
+                        JOptionPane.showMessageDialog(f,autoObj);
 
-                        a1.setMarca(marca);
-                        a1.setModello(modello);
+                        Automobile a1 = new Automobile();
+                        int cilindrata = Integer.parseInt(String.valueOf(cilindrata1.getText()));
+                        int potenza = Integer.parseInt(String.valueOf(potenza1.getText()));
+                        int euro = Integer.parseInt(String.valueOf(euro1.getText()));
+                        int posti = Integer.parseInt(String.valueOf(posti1.getText()));
+                        int porte = Integer.parseInt(String.valueOf(porte1.getText()));
+
+                        a1.setMarca(marca1.getText());
+                        a1.setModello(modello1.getText());
                         a1.setCilindrata(cilindrata);
                         a1.setPotenza(potenza);
                         a1.setEuro(euro);
@@ -107,10 +123,27 @@ public class Frame
                 b3.setForeground(Color.WHITE);
                 b3.addActionListener(e -> {
                         UIManager.put("Panel.background",Color.DARK_GRAY);
-                        String marca = JOptionPane.showInputDialog(f,"Inserire marca (lascia vuoto se non interessato)");
+                        /*String marca = JOptionPane.showInputDialog(f,"Inserire marca (lascia vuoto se non interessato)");
                         String modello = JOptionPane.showInputDialog(f,"Inserire modello (lascia vuoto se non interessato)");
                         String cilindrata = JOptionPane.showInputDialog(f,"Inserisci cilindrata (lascia vuoto se non interessato)");
-                        String potenza = JOptionPane.showInputDialog(f,"Inserisci potenza (lascia vuoto se non interessato)");
+                        String potenza = JOptionPane.showInputDialog(f,"Inserisci potenza (lascia vuoto se non interessato)");*/
+
+                        JTextField marca1 = new JTextField();
+                        JTextField modello1 = new JTextField();
+                        JTextField cilindrata1 = new JTextField();
+                        JTextField potenza1 = new JTextField();
+                        Object[] autoObj = {
+                                "Marca:", marca1,
+                                "Modello:", modello1,
+                                "Cilindrata: ", cilindrata1,
+                                "Potenza: ", potenza1,
+                        };
+                        JOptionPane.showMessageDialog(f,autoObj);
+
+                        String marca = marca1.getText();
+                        String modello = modello1.getText();
+                        String cilindrata = cilindrata1.getText();
+                        String potenza = potenza1.getText();
 
                         int cilindrataInt = 0;
                         int potenzaInt = 0;
@@ -228,7 +261,7 @@ public class Frame
                 this.l = new DefaultListModel<>();
                 for(i=0;i<v.size();i++){
                         this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
-                                " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
+                                " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
@@ -248,7 +281,7 @@ public class Frame
                 this.l.removeAllElements();
                 for(int i=0;i<v.size();i++){
                         this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
-                                " (" +v.elementAt(i).getCilindrata()+ " " +v.elementAt(i).getPotenza()+
+                                " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
 
