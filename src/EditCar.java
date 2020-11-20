@@ -1,10 +1,13 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 public class EditCar
 {
         public static void Edit(JFrame f,Vector<Automobile> v,JList lista)
         {
+
+                UIManager.put("Panel.background", Color.DARK_GRAY);
                 Automobile a = v.elementAt(lista.getSelectedIndex());
                 ImageIcon i = new ImageIcon("assets/auto.jpg");
 

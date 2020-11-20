@@ -1,10 +1,12 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 public class SearchCar
 {
         public static void Search(JFrame f,Vector<Automobile> v)
         {
+                UIManager.put("Panel.background", Color.DARK_GRAY);
                 JTextField marca1 = new JTextField();
                 JTextField modello1 = new JTextField();
                 JTextField cilindrata1 = new JTextField();

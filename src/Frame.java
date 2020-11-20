@@ -48,7 +48,6 @@ public class Frame
                 b2.setBackground(Color.BLACK);
                 b2.setForeground(Color.WHITE);
                 b2.addActionListener(e -> {
-                        UIManager.put("Panel.background",Color.DARK_GRAY);
                         AddCar.Add(f,v);
                         RefreshAuto(v);
                         SaveFile.Save(v,aVendute);
@@ -58,10 +57,7 @@ public class Frame
                 JButton b3 = new JButton("Cerca auto");
                 b3.setBackground(Color.BLACK);
                 b3.setForeground(Color.WHITE);
-                b3.addActionListener(e -> {
-                        UIManager.put("Panel.background",Color.DARK_GRAY);
-                        SearchCar.Search(f,v);
-                });
+                b3.addActionListener(e -> SearchCar.Search(f,v));
 
 
                 b1.setBounds(50,50,200,30);
@@ -87,7 +83,6 @@ public class Frame
                         public void mouseClicked(MouseEvent e)
                         {
                                 if(e.getClickCount()==2){
-                                        UIManager.put("Panel.background",Color.DARK_GRAY);
                                         EditCar.Edit(f,v,lista);
                                         RefreshAuto(v);
                                         SaveFile.Save(v,aVendute);
@@ -100,16 +95,14 @@ public class Frame
         private void InitAuto(Vector<Automobile> v)
         {
                 Init.InitCar(v);
+
                 this.l = new DefaultListModel<>();
-                for(int i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
-                                " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
-                                ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
-                }
+                addToList(v);
 
                 this.lista = new JList<>(this.l);
                 this.lista.setForeground(Color.WHITE);
                 this.lista.setBackground(Color.GRAY);
+
                 this.s = new JScrollPane();
                 this.s.setViewportView(lista);
 
@@ -119,16 +112,18 @@ public class Frame
 
         private void RefreshAuto(Vector<Automobile> v)
         {
-                f.remove(this.s);
                 this.l.removeAllElements();
+                addToList(v);
+                f.revalidate();
+        }
+
+        private void addToList(Vector<Automobile> v)
+        {
                 for(int i=0;i<v.size();i++){
                         this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
                                 " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }
-
-                f.add(this.s);
-                f.revalidate();
         }
 
         public static void main(String[] args)
