@@ -29,7 +29,6 @@ public class EditCar
                 };
                 int j = JOptionPane.showConfirmDialog(f,autoObj,"Info",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE,i);
 
-                System.out.print(j);
                 if(j == JOptionPane.OK_OPTION){
                         v.elementAt(lista.getSelectedIndex()).setMarca(marca1.getText());
                         v.elementAt(lista.getSelectedIndex()).setModello(modello1.getText());

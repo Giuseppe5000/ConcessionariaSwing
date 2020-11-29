@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Scanner;
@@ -8,15 +7,24 @@ import java.util.Vector;
 
 public class Init
 {
-        public static void InitCar(Vector<Automobile> v)
+        public static void InitCar(Vector<Automobile> v, boolean b)
         {
-                JFileChooser filec = new JFileChooser();
-                filec.setFileFilter(new FileNameExtensionFilter("CSV files","csv"));
-                filec.setCurrentDirectory(new File("."));
-                File elenco = null;
-                int returnVal = filec.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION)
-                        elenco = filec.getSelectedFile();
+                File file = null;
+                if(b) {
+                        JFileChooser filec = new JFileChooser();
+                        filec.setFileFilter(new FileNameExtensionFilter("CSV files","csv"));
+                        filec.setCurrentDirectory(new File("."));
+                        File elenco = null;
+                        int returnVal = filec.showOpenDialog(null);
+                        if(returnVal == JFileChooser.APPROVE_OPTION)
+                                elenco = filec.getSelectedFile();
+                        assert elenco != null;
+                        file = elenco.getAbsoluteFile();
+                }
+                if(!b){
+                        file = new File("autovendute.csv");
+                }
+
 
 
                 Vector<String> arrayauto = new Vector<>();
@@ -25,8 +33,7 @@ public class Init
                 int i=0;
 
                 try {
-                        assert elenco != null;
-                        autof = new FileInputStream(elenco.getAbsoluteFile());
+                        autof = new FileInputStream(file);
                         in = new Scanner(autof);
 
                         while(in.hasNextLine()) {

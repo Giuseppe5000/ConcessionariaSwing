@@ -12,16 +12,19 @@ import java.util.Vector;
 
 public class Frame
 {
-        JFrame f = new JFrame();
-        private DefaultListModel<String> l;
-        private JScrollPane s;
-        private JList lista;
+        public static JFrame f = new JFrame();
+        public static DefaultListModel<String> l;
+        public static DefaultListModel<String> l1;
+        public static JList lista;
+        private JList lista1;
+        public static Vector<Automobile> v = new Vector<>();
+        public static Vector<Automobile> aVendute = new Vector<>();
 
         Frame()
         {
                 f.getContentPane().setBackground(Color.DARK_GRAY);
                 f.setName("Concessionaria");
-                f.setSize(800,395);
+                f.setSize(800,750);
                 f.setResizable(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.setLayout(null);
@@ -29,51 +32,40 @@ public class Frame
                 UIManager.put("OptionPane.background",Color.DARK_GRAY);
                 UIManager.put("OptionPane.messageForeground",Color.WHITE);
 
-                Vector<Automobile> v = new Vector<>();
-                Vector<Automobile> aVendute = new Vector<>();
-
-                //Vende auto
-                JButton b1 = new JButton("Vendi auto selezionata");
+                //Aggiunge auto
+                JButton b1 = new JButton("Aggiungi auto");
                 b1.setBackground(Color.BLACK);
                 b1.setForeground(Color.WHITE);
                 b1.addActionListener(e -> {
-                        SellCar.Sell(lista,v,aVendute);
-                        RefreshAuto(v);
-                        SaveFile.Save(v,aVendute);
-                });
-
-
-                //Aggiunge auto
-                JButton b2 = new JButton("Aggiungi auto");
-                b2.setBackground(Color.BLACK);
-                b2.setForeground(Color.WHITE);
-                b2.addActionListener(e -> {
                         AddCar.Add(f,v);
-                        RefreshAuto(v);
+                        RefreshAuto(v,aVendute);
                         SaveFile.Save(v,aVendute);
                 });
 
                 //Cerca auto
-                JButton b3 = new JButton("Cerca auto");
-                b3.setBackground(Color.BLACK);
-                b3.setForeground(Color.WHITE);
-                b3.addActionListener(e -> SearchCar.Search(f,v));
+                JButton b2 = new JButton("Cerca auto");
+                b2.setBackground(Color.BLACK);
+                b2.setForeground(Color.WHITE);
+                b2.addActionListener(e -> SearchCar.Search(f,v,aVendute));
 
 
-                b1.setBounds(50,50,200,30);
-                b2.setBounds(50,100,200,30);
-                b3.setBounds(50,150,200,30);
+                b1.setBounds(50,100,200,30);
+                b2.setBounds(50,150,200,30);
 
                 JLabel label = new JLabel("<html><span style='color:red;'>Indice</span> Marca Modello " +
                         "(cilindrata,potenza,euro,posti,porte)</html>");
                 label.setForeground(Color.WHITE);
                 label.setBounds(300,30,500,20);
 
+                JLabel label1 = new JLabel("Auto vendute");
+                label1.setForeground(Color.WHITE);
+                label1.setBounds(300,380,500,20);
+
                 f.add(b1);
                 f.add(b2);
-                f.add(b3);
                 f.add(label);
-                InitAuto(v);
+                f.add(label1);
+                InitAuto(v,aVendute);
                 f.setVisible(true);
 
                 //Click sulle auto in lista
@@ -84,7 +76,21 @@ public class Frame
                         {
                                 if(e.getClickCount()==2){
                                         EditCar.Edit(f,v,lista);
-                                        RefreshAuto(v);
+                                        RefreshAuto(v,aVendute);
+                                        SaveFile.Save(v,aVendute);
+                                }
+
+                        }
+                });
+
+                lista1.addMouseListener(new MouseAdapter()
+                {
+                        @Override
+                        public void mouseClicked(MouseEvent e)
+                        {
+                                if(e.getClickCount()==2){
+                                        EditCar.Edit(f,aVendute,lista1);
+                                        RefreshAuto(v,aVendute);
                                         SaveFile.Save(v,aVendute);
                                 }
 
@@ -92,35 +98,57 @@ public class Frame
                 });
         }
 
-        private void InitAuto(Vector<Automobile> v)
+        private void InitAuto(Vector<Automobile> v, Vector<Automobile> aVendute)
         {
-                Init.InitCar(v);
+                Init.InitCar(v,true);
+                Init.InitCar(aVendute,false);
 
-                this.l = new DefaultListModel<>();
-                addToList(v);
+                l = new DefaultListModel<>();
+                addToList(v,l);
 
-                this.lista = new JList<>(this.l);
-                this.lista.setForeground(Color.WHITE);
-                this.lista.setBackground(Color.GRAY);
+                l1 = new DefaultListModel<>();
+                addToList(aVendute,l1);
 
-                this.s = new JScrollPane();
-                this.s.setViewportView(lista);
+                lista = new JList<>(l);
+                lista.setForeground(Color.WHITE);
+                lista.setBackground(Color.GRAY);
 
-                this.s.setBounds(300,50,517,310);
+                lista1 = new JList<>(l1);
+                lista1.setForeground(Color.WHITE);
+                lista1.setBackground(Color.GRAY);
+
+                JScrollPane s = new JScrollPane();
+                s.setViewportView(lista);
+
+                JScrollPane s1 = new JScrollPane();
+                s1.setViewportView(lista1);
+
+
+                lista.setDragEnabled(true);
+                lista1.setDropMode(DropMode.INSERT);
+                lista.setTransferHandler(new GestoreDrag());
+                lista1.setTransferHandler(new GestoreDrop());
+
+
+                s.setBounds(300,50,517,310);
+                s1.setBounds(300,400,517,310);
                 f.add(s);
+                f.add(s1);
         }
 
-        private void RefreshAuto(Vector<Automobile> v)
+        public static void RefreshAuto(Vector<Automobile> v, Vector<Automobile> aVendute)
         {
-                this.l.removeAllElements();
-                addToList(v);
+                l.removeAllElements();
+                l1.removeAllElements();
+                addToList(v,l);
+                addToList(aVendute,l1);
                 f.revalidate();
         }
 
-        private void addToList(Vector<Automobile> v)
+        public static void addToList(Vector<Automobile> v,DefaultListModel<String> l)
         {
                 for(int i=0;i<v.size();i++){
-                        this.l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
+                        l.addElement("<html><span style='color: black;'>"+(i+1)+"</span> " + v.elementAt(i).getMarca() + " " + v.elementAt(i).getModello()+
                                 " (" +v.elementAt(i).getCilindrata()+ ", " +v.elementAt(i).getPotenza()+
                                 ", " +v.elementAt(i).getEuro()+ ", " +v.elementAt(i).getPosti()+ ", " +v.elementAt(i).getPorte()+")</html>");
                 }

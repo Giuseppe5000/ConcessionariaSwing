@@ -4,22 +4,29 @@ import java.util.Vector;
 
 public class SearchCar
 {
-        public static void Search(JFrame f,Vector<Automobile> v)
+        public static void Search(JFrame f,Vector<Automobile> v,Vector<Automobile> aVendute)
         {
                 UIManager.put("Panel.background", Color.DARK_GRAY);
                 JTextField marca1 = new JTextField();
                 JTextField modello1 = new JTextField();
                 JTextField cilindrata1 = new JTextField();
                 JTextField potenza1 = new JTextField();
+                JCheckBox check = new JCheckBox();
+                check.setBackground(Color.DARK_GRAY);
                 Object[] autoObj = {
                         "Marca:", marca1,
                         "Modello:", modello1,
                         "Cilindrata: ", cilindrata1,
                         "Potenza: ", potenza1,
+                        "Vendute: ", check
                 };
                 int j = JOptionPane.showConfirmDialog(f,autoObj,"Cerca auto",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
 
                 if (j == JOptionPane.OK_OPTION){
+                        if(check.isSelected()){
+                                v = aVendute;
+                        }
+
                         String marca = marca1.getText();
                         String modello = modello1.getText();
                         String cilindrata = cilindrata1.getText();

@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class SellCar
 {
-        public static void Sell(JList lista, Vector<Automobile> v,Vector<Automobile> aVendute)
+        public static void Sell(JList lista, Vector<Automobile> v,Vector<Automobile> aVendute, int index)
         {
-                int index = lista.getSelectedIndex();
+
                 Automobile a = v.get(index);
 
                 v.remove(index);

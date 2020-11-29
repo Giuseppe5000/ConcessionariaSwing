@@ -16,7 +16,7 @@ public class SaveFile
                                 }
 
                                 if(i==1){
-                                        f = new FileWriter("autovendute.csv",true);
+                                        f = new FileWriter("autovendute.csv");
                                         Write(aVendute,f);
                                 }
 
