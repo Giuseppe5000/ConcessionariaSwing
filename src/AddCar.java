@@ -27,11 +27,22 @@ public class AddCar
 
                 if(j == JOptionPane.OK_OPTION) {
                         Automobile a1 = new Automobile();
-                        int cilindrata = Integer.parseInt(String.valueOf(cilindrata1.getText()));
-                        int potenza = Integer.parseInt(String.valueOf(potenza1.getText()));
-                        int euro = Integer.parseInt(String.valueOf(euro1.getText()));
-                        int posti = Integer.parseInt(String.valueOf(posti1.getText()));
-                        int porte = Integer.parseInt(String.valueOf(porte1.getText()));
+                        int cilindrata = 0, potenza = 0, euro = 0, posti = 0, porte = 0;
+                        try {
+                                cilindrata = Integer.parseInt(String.valueOf(cilindrata1.getText()));
+                                potenza = Integer.parseInt(String.valueOf(potenza1.getText()));
+                                euro = Integer.parseInt(String.valueOf(euro1.getText()));
+                                posti = Integer.parseInt(String.valueOf(posti1.getText()));
+                                porte = Integer.parseInt(String.valueOf(porte1.getText()));
+                        }catch (NumberFormatException e){
+                                JOptionPane.showMessageDialog(f,"Devi compilare tutti i campi!");
+                                return;
+                        }
+
+                       if(marca1.getText().equals("") || modello1.getText().equals("")){
+                               JOptionPane.showMessageDialog(f,"Devi compilare tutti i campi!");
+                               return;
+                       }
 
                         a1.setMarca(marca1.getText());
                         a1.setModello(modello1.getText());

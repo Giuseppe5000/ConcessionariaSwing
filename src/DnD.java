@@ -14,10 +14,7 @@ class GestoreDrag extends TransferHandler
 
         protected Transferable createTransferable(JComponent c)
         {
-                JList lista = (JList) c;
-                String Drag = (String) lista.getSelectedValue();
-
-                return new StringSelection(Drag);
+                return new StringSelection( (String) (((JList) c).getSelectedValue()) );
         }
 
 
