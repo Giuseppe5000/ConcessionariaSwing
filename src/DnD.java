@@ -1,3 +1,6 @@
+/*
+ * Funzione che implementa in Drag and Drop
+ * Viene richiamata in Frame*/
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;

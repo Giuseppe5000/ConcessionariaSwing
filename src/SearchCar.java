@@ -1,3 +1,6 @@
+/*
+ * Funzione che cerca una automobile.
+ * Viene richiamata in Frame*/
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;

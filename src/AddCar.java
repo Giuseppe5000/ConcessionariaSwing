@@ -1,3 +1,6 @@
+/*
+ * Funzione che aggiunge una automobile
+ * Viene richiamata in Frame*/
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;

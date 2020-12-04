@@ -1,3 +1,6 @@
+/*
+* Funzione che vende una automobile.
+* Viene richiamata in Frame e in DnD*/
 import javax.swing.*;
 import java.util.Random;
 import java.util.Vector;

@@ -1,7 +1,5 @@
 /*
-* @author Tutino Giuseppe
-* @version 2.2
-*
+* Classe dove viene sviluppato il Frame principale
 * */
 
 import javax.swing.*;
@@ -154,8 +152,4 @@ public class Frame
                 }
         }
 
-        public static void main(String[] args)
-        {
-                new Frame();
-        }
 }

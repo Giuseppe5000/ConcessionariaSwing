@@ -1,3 +1,6 @@
+/*
+ * Funzione che legge i file csv e immette i dati letti in un Vector apposito
+ * Viene richiamata in Frame*/
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;

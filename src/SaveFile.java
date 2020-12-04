@@ -1,3 +1,6 @@
+/*
+ * Funzione che salva i 2 file contenenti le auto e le auto vendute.
+ * Viene richiamata in Frame e in DnD*/
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
