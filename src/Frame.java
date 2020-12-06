@@ -4,8 +4,7 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Vector;
 
 public class Frame
@@ -94,6 +93,69 @@ public class Frame
 
                         }
                 });
+
+                b1.requestFocus();
+                b1.addKeyListener(new KeyAdapter()
+                {
+                        @Override
+                        public void keyPressed(KeyEvent e)
+                        {
+                                switch (e.getKeyCode()) {
+                                        case 10 -> {
+                                                AddCar.Add(f, v);
+                                                RefreshAuto(v, aVendute);
+                                                SaveFile.Save(v, aVendute);
+                                        }
+                                        case 40 -> b2.requestFocus();
+                                        case 39 -> lista.requestFocus();
+                                }
+                        }
+                });
+                b2.addKeyListener(new KeyAdapter()
+                {
+                        @Override
+                        public void keyPressed(KeyEvent e)
+                        {
+                                switch (e.getKeyCode()) {
+                                        case 10 -> SearchCar.Search(f,v,aVendute);
+                                        case 38 -> b1.requestFocus();
+                                        case 39 -> lista.requestFocus();
+                                }
+                        }
+                });
+                lista.addKeyListener(new KeyAdapter()
+                {
+                        @Override
+                        public void keyPressed(KeyEvent e)
+                        {
+                                switch (e.getKeyCode()) {
+                                        case 10 -> {
+                                                EditCar.Edit(f,v,lista);
+                                                RefreshAuto(v,aVendute);
+                                                SaveFile.Save(v,aVendute);
+                                        }
+                                        case 37 -> b1.requestFocus();
+                                        case 39 -> lista1.requestFocus();
+                                }
+                        }
+                });
+                lista1.addKeyListener(new KeyAdapter()
+                {
+                        @Override
+                        public void keyPressed(KeyEvent e)
+                        {
+                                switch (e.getKeyCode()) {
+                                        case 10 -> {
+                                                EditCar.Edit(f,aVendute,lista1);
+                                                RefreshAuto(v,aVendute);
+                                                SaveFile.Save(v,aVendute);
+                                        }
+                                        case 37 -> b1.requestFocus();
+                                        case 39 -> lista.requestFocus();
+                                }
+                        }
+                });
+
         }
 
         private void InitAuto(Vector<Automobile> v, Vector<Automobile> aVendute)
@@ -132,6 +194,10 @@ public class Frame
                 s1.setBounds(300,400,517,310);
                 f.add(s);
                 f.add(s1);
+
+                UIManager.put("Panel.background", Color.DARK_GRAY);
+                JOptionPane.showMessageDialog(f,"Puoi controllare la concessionaria spostandoti\n" +
+                        "con i tasti freccia e premendo con Enter","Novità",JOptionPane.INFORMATION_MESSAGE);
         }
 
         public static void RefreshAuto(Vector<Automobile> v, Vector<Automobile> aVendute)
