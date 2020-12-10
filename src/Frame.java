@@ -136,6 +136,11 @@ public class Frame
                                         }
                                         case 37 -> b1.requestFocus();
                                         case 39 -> lista1.requestFocus();
+                                        case KeyEvent.VK_S -> {
+                                                SellCar.Sell(Frame.lista,Frame.v,Frame.aVendute,lista.getSelectedIndex());
+                                                Frame.RefreshAuto(Frame.v,Frame.aVendute);
+                                                SaveFile.Save(Frame.v,Frame.aVendute);
+                                        }
                                 }
                         }
                 });
@@ -197,7 +202,7 @@ public class Frame
 
                 UIManager.put("Panel.background", Color.DARK_GRAY);
                 JOptionPane.showMessageDialog(f,"Puoi controllare la concessionaria spostandoti\n" +
-                        "con i tasti freccia e premendo con Enter","Novità",JOptionPane.INFORMATION_MESSAGE);
+                        "con i tasti freccia, premendo con Enter e vendendo con 's' ","Novità",JOptionPane.INFORMATION_MESSAGE);
         }
 
         public static void RefreshAuto(Vector<Automobile> v, Vector<Automobile> aVendute)
